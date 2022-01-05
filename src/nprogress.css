@@ -1,0 +1,14 @@
+#nprogress {
+  pointer-events: none;
+}
+
+#nprogress .bar {
+  background: theme('colors.brand');
+  @apply bg-gradient-to-r from-[#6EE7B7] via-[#3B82F6] to-[#9333EA];
+  position: fixed;
+  z-index: 1031;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+}
