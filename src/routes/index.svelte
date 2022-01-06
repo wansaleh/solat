@@ -15,28 +15,48 @@
 </script>
 
 <script lang="ts">
-  import { addDays } from 'date-fns';
+  import { addDays, format } from 'date-fns';
+  import Geolocation from 'svelte-geolocation';
+
   import type { Day } from './times.json';
-  import codes from '$lib/jakim-codes.json';
+  import { areas } from '$lib/jakim-zones.json';
   import TimeIcon from '$lib/components/time-icon.svelte';
   import getSolatTimes, { SolatTime } from '$lib/solat-times';
   import { calcTimeDelta, TimeDelta } from '$lib/calc-time-delta';
 
   export let times: Day[];
+  export let hijri;
   let code = 'wly01';
+
+  const hijriMonthNames = [
+    'Muh',
+    'Saf',
+    'Rab I',
+    'Rab II',
+    'Jum I',
+    'Jum II',
+    'Rej',
+    'Sya',
+    'Ram',
+    'Syw',
+    'Zul Q',
+    'Zul H',
+  ];
 
   let now = new Date();
   $: setInterval(() => {
     now = new Date();
   }, 1000);
 
-  const allArea = codes.map((c) => c.areas).flat();
-  $: areaName = allArea.find((a) => a.code === code)?.name;
+  let areaNames = areas.filter((a) => a.code === code).map((a) => a.name);
 
   const dateStr = now.toISOString().split('T')[0];
   let today: Day = times.find((t) => t.date === dateStr);
 
   $: solatTimes = getSolatTimes(today, now);
+  $: hijriDate = `${Number(hijri.day)} ${
+    hijriMonthNames[hijri.month.number - 1]
+  } ${hijri.year}`;
 
   let nextSolat: SolatTime;
   $: {
@@ -57,14 +77,21 @@
   $: {
     diff = calcTimeDelta(nextSolat.date, { now });
   }
+
+  let coords = [];
 </script>
 
+<Geolocation getPosition bind:coords />
+
 <div class="layout">
-  <div class="flex justify-between lg:text-lg text-sm leading-tight">
+  <div class="flex justify-between items-end lg:text-lg text-sm leading-tight">
     <div>
-      <div class="font-medium">Waktu Solat</div>
+      <div class="font-medium">
+        {format(now, 'd MMM yyyy')} &middot;
+        {hijriDate}
+      </div>
       <div class="font-light">
-        {areaName}
+        {areaNames.join(', ')}
       </div>
     </div>
 

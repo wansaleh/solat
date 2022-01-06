@@ -1,4 +1,4 @@
-import jakimCodes from '$lib/jakim-codes.json';
+import { areas } from '$lib/jakim-zones.json';
 
 export type Times = {
   imsak: string;
@@ -18,11 +18,7 @@ export type Day = {
 
 /** @type {import('@sveltejs/kit').RequestHandler} */
 export async function get({ url }) {
-  let validCodes = [];
-  jakimCodes.forEach(({ areas }) => {
-    validCodes = [...validCodes, ...areas.map(({ code }) => code)];
-  });
-
+  const validCodes = areas.map((a) => a.code);
   const code = url.searchParams.get('code') || 'wly01';
 
   if (!validCodes.includes(code)) {
