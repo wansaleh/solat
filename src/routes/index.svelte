@@ -88,14 +88,14 @@
     </div>
   </div>
 
-  <div class="flex justify-around flex-wrap mt-10 text-center">
+  <div class="flex justify-between mt-10 text-center">
     {#each solatTimes as time (time.slug)}
-      <div class="p-6">
+      <div class="p-2 lg:p-6">
         <div class="text-xs font-semibold">{time.name}</div>
         <div class="flex justify-center my-2 lg:text-3xl text-2xl">
           <TimeIcon slug={time.slug} colored />
         </div>
-        <div class="lg:text-xl text-lg font-semibold tracking-wide">
+        <div class="lg:text-xl text-lg font-semibold">
           {time.time12}
         </div>
         <div class="-mt-1 lg:text-sm text-xs font-medium">{time.ampm}</div>
