@@ -4,9 +4,9 @@
   import { colorMode } from '$lib/store';
 
   const defaultMeta = {
-    title: 'SvelteKit Starter',
-    siteName: 'SvelteKit Starter',
-    description: 'SvelteKit Starter With TypeScript & Tailwind.',
+    title: 'Waktu Solat',
+    siteName: 'Waktu Solat',
+    description: 'Waktu Solat Malaysia.',
     url: 'https://sveltekit-starter-wansaleh.vercel.app',
     image: 'https://sveltekit-starter-wansaleh.vercel.app/og.jpg',
     type: 'website',
