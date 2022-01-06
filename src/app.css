@@ -17,7 +17,7 @@ body {
   @apply bg-lightbg dark:bg-darkbg dark:text-white text-gray-900;
 }
 
-h1 {
+/* h1 {
   @apply lg:text-6xl text-4xl;
 }
 h2 {
@@ -25,7 +25,7 @@ h2 {
 }
 h3 {
   @apply lg:text-4xl text-2xl;
-}
+} */
 
 b,
 strong {

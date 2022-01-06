@@ -12,20 +12,11 @@
     class="lg:text-base group flex gap-2 items-center text-sm font-semibold leading-tight"
   >
     <span class="group-hover:text-brand transition duration-300">
-      Logo Here
+      Waktu Solat
     </span>
   </a>
 
   <ul class="lg:gap-2 flex items-center text-sm font-semibold">
-    <li>
-      <a
-        rel="external"
-        href="https://github.com/wansaleh/sveltekit-starter"
-        class="hover:underline"
-      >
-        Github
-      </a>
-    </li>
     <li>
       <ThemeSelect />
     </li>
