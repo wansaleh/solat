@@ -31,7 +31,8 @@
   export let code: string;
 
   async function refetch(code) {
-    times = await fetch(`/times.json?code=${code}`).then((r) => r.json());
+    const res = await fetch(`/times.json?code=${code}`).then((r) => r.json());
+    times = res.times;
   }
 
   let position;
@@ -65,11 +66,10 @@
   $: setInterval(() => {
     now = new Date();
   }, 1000);
-
+  $: dateStr = now.toISOString().split('T')[0];
   $: areaNames = areas.filter((a) => a.code === code).map((a) => a.name);
 
-  const dateStr = now.toISOString().split('T')[0];
-  let today: Day = times.find((t) => t.date === dateStr);
+  let today: Day;
   $: today = times.find((t) => t.date === dateStr);
 
   $: solatTimes = getSolatTimes(today, now);
@@ -78,24 +78,20 @@
   } ${hijri.year}`;
 
   let nextSolat: SolatTime;
-  $: {
-    solatTimes.forEach((t) => {
-      if (!nextSolat && t.date > now && t.slug !== 'syuruk') {
-        nextSolat = t;
-      }
-    });
-    if (!nextSolat) {
-      const _nextSubuh = solatTimes[0];
-      const _nextDate = addDays(_nextSubuh.date, 1);
-      _nextSubuh.date = _nextDate;
-      nextSolat = _nextSubuh;
+  $: solatTimes.forEach((time) => {
+    if (!nextSolat && time.date > now && time.slug !== 'syuruk') {
+      nextSolat = time;
     }
+  });
+  $: if (!nextSolat) {
+    const _nextSubuh = solatTimes[0];
+    const _nextDate = addDays(_nextSubuh.date, 1);
+    _nextSubuh.date = _nextDate;
+    nextSolat = _nextSubuh;
   }
 
   let diff: TimeDelta;
-  $: {
-    diff = calcTimeDelta(nextSolat.date, { now });
-  }
+  $: diff = calcTimeDelta(nextSolat.date, { now });
 </script>
 
 <Geolocation getPosition bind:position bind:loading />
