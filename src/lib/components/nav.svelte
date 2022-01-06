@@ -4,7 +4,7 @@
 </script>
 
 <div
-  class="flex absolute top-0 right-0 left-0 z-50 justify-between items-center p-6"
+  class="flex absolute top-0 right-0 left-0 z-50 justify-between items-center p-4 px-6"
 >
   <a
     sveltekit:prefetch
