@@ -15,11 +15,27 @@
 </script>
 
 <script lang="ts">
-  import { parse, setMonth, setYear } from 'date-fns';
+  import {
+    formatDistance,
+    formatDistanceToNow,
+    formatDistanceToNowStrict,
+    parse,
+    setMonth,
+    setYear,
+  } from 'date-fns';
   import type { HijriDate } from './hijridate.json';
   import type { Day, Times } from './times.json';
   import codes from '$lib/jakim-codes.json';
   import TimeIcon from '$lib/components/time-icon.svelte';
+
+  type SolatTime = {
+    slug: string;
+    name: string;
+    time24: string;
+    time12: string;
+    ampm: string;
+    date: Date;
+  };
 
   export let times: Day[];
   // export let hijri: HijriDate;
@@ -43,14 +59,8 @@
   $: areaName = allArea.find((a) => a.code === code)?.name;
   const dateStr = now.toISOString().split('T')[0];
   let today: Day;
-  let solatTimes: {
-    slug: string;
-    name: string;
-    time24: string;
-    time12: string;
-    ampm: string;
-    date: Date;
-  }[];
+  let solatTimes: SolatTime[];
+  let nextSolat: SolatTime;
   $: {
     today = times.find((t) => t.date === dateStr);
     solatTimes = Object.keys(today.times)
@@ -76,15 +86,11 @@
       })
       .filter((t) => t.slug !== 'imsak');
 
-    let next;
-
     solatTimes.forEach((t) => {
-      if (t.date > now) {
-        next = t;
+      if (!nextSolat && t.date > now && t.slug !== 'syuruk') {
+        nextSolat = t;
       }
     });
-
-    console.log(next);
   }
 </script>
 
@@ -97,17 +103,25 @@
       </h2>
     </div>
 
-    <div>Next:</div>
+    <div class="text-right">
+      <div class="text-lg">
+        {nextSolat.name}, {nextSolat.time12}
+        {nextSolat.ampm}
+      </div>
+      <div class="text-xl font-semibold">
+        {formatDistanceToNowStrict(nextSolat.date)}
+      </div>
+    </div>
   </div>
 
   <div class="flex justify-between mt-10 text-center">
     {#each solatTimes as time (time.slug)}
       <div class="p-8">
-        <div class="text-sm">{time.name}</div>
+        <div class="text-xs font-semibold">{time.name}</div>
         <div class="flex justify-center my-2 text-3xl">
           <TimeIcon slug={time.slug} />
         </div>
-        <div class="text-lg font-semibold tracking-wider">{time.time12}</div>
+        <div class="text-xl font-semibold tracking-wider">{time.time12}</div>
         <div class="-mt-1 text-sm">{time.ampm}</div>
       </div>
     {/each}
