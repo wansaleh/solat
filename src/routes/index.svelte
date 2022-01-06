@@ -20,7 +20,7 @@
   import codes from '$lib/jakim-codes.json';
   import TimeIcon from '$lib/components/time-icon.svelte';
   import getSolatTimes, { SolatTime } from '$lib/solat-times';
-  import { calcTimeDelta } from '$lib/calc-time-delta';
+  import { calcTimeDelta, TimeDelta } from '$lib/calc-time-delta';
 
   export let times: Day[];
   let code = 'wly01';
@@ -53,7 +53,7 @@
     }
   }
 
-  let diff;
+  let diff: TimeDelta;
   $: {
     diff = calcTimeDelta(nextSolat.date, { now });
   }
@@ -92,10 +92,10 @@
     {#each solatTimes as time (time.slug)}
       <div class="p-2 lg:p-6">
         <div class="text-xs font-semibold">{time.name}</div>
-        <div class="flex justify-center my-2 lg:text-3xl text-2xl">
+        <div class="flex justify-center lg:my-2 my-1 lg:text-3xl text-2xl">
           <TimeIcon slug={time.slug} colored />
         </div>
-        <div class="lg:text-xl text-lg font-semibold">
+        <div class="lg:text-xl text-base font-semibold">
           {time.time12}
         </div>
         <div class="-mt-1 lg:text-sm text-xs font-medium">{time.ampm}</div>

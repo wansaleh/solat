@@ -1,3 +1,13 @@
+export type TimeDelta = {
+  total: number;
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+  milliseconds: number;
+  completed: boolean;
+};
+
 /**
  * Calculates the time difference between a given end date and the current date.
  *
@@ -20,7 +30,7 @@ export function calcTimeDelta(
     offsetTime?: number;
     overtime?: boolean;
   }
-) {
+): TimeDelta {
   const {
     now = Date.now(),
     precision = 0,
