@@ -2,12 +2,13 @@
   /** @type {import('@sveltejs/kit').Load} */
   export async function load({ fetch, url }) {
     const code = url.searchParams.get('code') || '';
-    const times = await fetch(`/times.json?code=${code}`).then((r) => r.json());
+    const res = await fetch(`/times.json?code=${code}`).then((r) => r.json());
     const hijri = await fetch(`/hijridate.json`).then((r) => r.json());
 
     return {
       props: {
-        times,
+        times: res.times,
+        code: res.code,
         hijri,
       },
     };
@@ -27,7 +28,7 @@
 
   export let times: Day[];
   export let hijri;
-  let code = 'sgr01';
+  export let code: string;
 
   async function refetch(code) {
     times = await fetch(`/times.json?code=${code}`).then((r) => r.json());
@@ -69,6 +70,7 @@
 
   const dateStr = now.toISOString().split('T')[0];
   let today: Day = times.find((t) => t.date === dateStr);
+  $: today = times.find((t) => t.date === dateStr);
 
   $: solatTimes = getSolatTimes(today, now);
   $: hijriDate = `${Number(hijri.day)} ${

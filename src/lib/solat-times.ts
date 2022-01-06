@@ -20,7 +20,11 @@ export const timeNames = {
   isyak: 'Isyak',
 };
 
-export default function getSolatTimes(day: Day, now: Date): SolatTime[] {
+export default function getSolatTimes(
+  day: Day,
+  now: Date,
+  hideTimes: string[] = ['imsak', 'syuruk']
+): SolatTime[] {
   const solatTimes: SolatTime[] = Object.keys(day.times)
     .map((k) => {
       const time24 = day.times[k];
@@ -42,7 +46,7 @@ export default function getSolatTimes(day: Day, now: Date): SolatTime[] {
         date,
       };
     })
-    .filter((t) => t.slug !== 'imsak');
+    .filter((t) => !hideTimes.includes(t.slug));
 
   return solatTimes;
 }
