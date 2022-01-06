@@ -18,17 +18,18 @@
     templateTitle?: string;
   } & Partial<typeof defaultMeta>;
 
-  const meta: SeoProps = {
+  let meta: SeoProps;
+  $: meta = {
     ...defaultMeta,
     ...$$props,
   };
-  meta['title'] = $$props.templateTitle
+  $: meta.title = $$props.templateTitle
     ? `${$$props.templateTitle} · ${meta.siteName}`
     : meta.title;
 
   // Use siteName if there is templateTitle
   // but show full title if there is none
-  meta.image = openGraph({
+  $: meta.image = openGraph({
     description: meta.description,
     siteName: $$props.templateTitle ? meta.siteName : meta.title,
     templateTitle: $$props.templateTitle,
