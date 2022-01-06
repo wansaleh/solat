@@ -23,10 +23,26 @@
   import TimeIcon from '$lib/components/time-icon.svelte';
   import getSolatTimes, { SolatTime } from '$lib/solat-times';
   import { calcTimeDelta, TimeDelta } from '$lib/calc-time-delta';
+  import getNearestArea, { Area } from '$lib/nearest-area';
 
   export let times: Day[];
   export let hijri;
-  let code = 'wly01';
+  let code = 'sgr01';
+
+  async function refetch(code) {
+    times = await fetch(`/times.json?code=${code}`).then((r) => r.json());
+  }
+
+  let position;
+  let nearestArea: Area = null;
+  $: nearestArea =
+    position && position.coords
+      ? getNearestArea(position.coords.latitude, position.coords.longitude)
+      : null;
+  $: if (nearestArea) {
+    code = nearestArea.code;
+    refetch(code);
+  }
 
   const hijriMonthNames = [
     'Muh',
@@ -48,7 +64,7 @@
     now = new Date();
   }, 1000);
 
-  let areaNames = areas.filter((a) => a.code === code).map((a) => a.name);
+  $: areaNames = areas.filter((a) => a.code === code).map((a) => a.name);
 
   const dateStr = now.toISOString().split('T')[0];
   let today: Day = times.find((t) => t.date === dateStr);
@@ -77,11 +93,9 @@
   $: {
     diff = calcTimeDelta(nextSolat.date, { now });
   }
-
-  let coords = [];
 </script>
 
-<Geolocation getPosition bind:coords />
+<Geolocation getPosition bind:position />
 
 <div class="layout">
   <div class="flex justify-between items-end lg:text-lg text-sm leading-tight">
@@ -90,7 +104,7 @@
         {format(now, 'd MMM yyyy')} &middot;
         {hijriDate}
       </div>
-      <div class="font-light">
+      <div class="font-light max-w-sm">
         {areaNames.join(', ')}
       </div>
     </div>
