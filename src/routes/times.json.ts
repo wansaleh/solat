@@ -61,13 +61,13 @@ export async function get({ url }) {
       date: `${year}-${String(month).padStart(2, '0')}-${date}`,
       format: 'yyyy-mm-dd',
       times: {
-        imsak,
-        subuh,
-        syuruk,
-        zohor,
-        asar,
-        maghrib,
-        isyak: iswak,
+        imsak: imsak.substring(0, 5),
+        subuh: subuh.substring(0, 5),
+        syuruk: syuruk.substring(0, 5),
+        zohor: zohor.substring(0, 5),
+        asar: asar.substring(0, 5),
+        maghrib: maghrib.substring(0, 5),
+        isyak: iswak.substring(0, 5),
       },
     })
   );

@@ -36,6 +36,7 @@ export default function getSolatTimes(
         String(minute).padStart(2, '0');
       const ampm = hour >= 12 ? 'PM' : 'AM';
       const date = parse(time24, 'HH:mm', now);
+      // console.log(time24, date);
 
       return {
         slug: k,

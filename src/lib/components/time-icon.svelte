@@ -82,7 +82,7 @@
       cx="12"
       cy="12"
       r="5"
-      class="stroke-orange-400 fill-orange-400"
+      class={colored && 'stroke-orange-400 fill-orange-400'}
     /><line x1="12" y1="1" x2="12" y2="3" /><line
       x1="12"
       y1="21"
