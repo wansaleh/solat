@@ -97,13 +97,13 @@
 <Geolocation getPosition bind:position bind:loading />
 
 <div class="layout">
-  <div class="flex justify-between items-end lg:text-lg text-sm leading-tight">
+  <div class="lg:text-lg flex justify-between items-end text-sm leading-tight">
     <div>
       <div class="font-medium">
         {format(now, 'd MMM yyyy')} &middot;
         {hijriDate}
       </div>
-      <div class="font-light max-w-sm">
+      <div class="max-w-sm font-light">
         {#if loading}
           <svg
             class="animate-spin mr-1 -mt-0.5 h-4 w-4 text-current inline-block"
@@ -131,7 +131,7 @@
     </div>
 
     <div class="text-right">
-      <div class="font-light flex items-center gap-2">
+      <div class="flex gap-2 items-center font-light">
         <TimeIcon slug={nextSolat.slug} />
         <span>
           {nextSolat.name}, {nextSolat.time12}
@@ -150,17 +150,25 @@
     </div>
   </div>
 
-  <div class="flex justify-between mt-10 text-center">
+  <div class="flex justify-between items-start mt-10 text-center">
     {#each solatTimes as time (time.slug)}
-      <div class="p-2 lg:p-6">
+      <div class="lg:p-6 relative p-2">
         <div class="text-xs font-semibold">{time.name}</div>
-        <div class="flex justify-center lg:my-2 my-1 lg:text-3xl text-2xl">
+        <div class="lg:my-2 lg:text-3xl flex justify-center my-1 text-2xl">
           <TimeIcon slug={time.slug} colored />
         </div>
         <div class="lg:text-xl text-base font-semibold">
           {time.time12}
         </div>
-        <div class="-mt-1 lg:text-sm text-xs font-medium">{time.ampm}</div>
+        <div class="lg:text-sm -mt-1 text-xs font-medium">{time.ampm}</div>
+        {#if nextSolat.slug === time.slug}
+          <div class="block mt-1 text-xs font-bold">
+            <span
+              class="dark:text-black dark:bg-white px-2 text-white bg-black rounded-full"
+              >Next</span
+            >
+          </div>
+        {/if}
       </div>
     {/each}
   </div>

@@ -12,10 +12,13 @@ const config = {
 
   theme: {
     extend: {
+      colors: { brand, lightbg, darkbg },
       fontFamily: {
         sans: ['Inter var', ...fontFamily.sans],
       },
-      colors: { brand, lightbg, darkbg },
+      fontSize: {
+        '2xs': '0.65rem',
+      },
     },
   },
 };
