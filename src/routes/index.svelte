@@ -139,10 +139,10 @@
         </span>
       </div>
       <div class="font-semibold">
-        {#if diff.hours > 1}
+        {#if diff.hours > 0}
           {diff.hours}h
         {/if}
-        {#if diff.minutes > 1}
+        {#if diff.minutes > 0}
           {String(diff.minutes).padStart(2, '0')}m
         {/if}
         {String(diff.seconds).padStart(2, '0')}s
