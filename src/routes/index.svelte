@@ -97,9 +97,12 @@
 <Geolocation getPosition bind:position bind:loading />
 
 <div class="layout">
-  <div class="lg:text-lg flex justify-between items-end text-sm leading-tight">
-    <div>
-      <div class="font-medium">
+  <div
+    class="lg:text-lg lg:text-left flex flex-wrap gap-4 justify-between items-end mb-10 text-sm leading-tight text-center"
+  >
+    <div class="lg:w-auto w-full">
+      <div class="text-lg font-medium">
+        {format(now, 'iiii')} &middot;
         {format(now, 'd MMM yyyy')} &middot;
         {hijriDate}
       </div>
@@ -130,15 +133,15 @@
       </div>
     </div>
 
-    <div class="text-right">
-      <div class="flex gap-2 items-center font-light">
-        <TimeIcon slug={nextSolat.slug} />
-        <span>
-          {nextSolat.name}, {nextSolat.time12}
-          {nextSolat.ampm}
-        </span>
+    <div
+      class="lg:w-auto lg:block lg:text-right lg:text-lg gap-2 w-full text-xl text-center"
+    >
+      <div class="font-light">
+        {nextSolat.name}, {nextSolat.time12}
+        {nextSolat.ampm}
       </div>
       <div class="font-semibold">
+        in
         {#if diff.hours > 0}
           {diff.hours}h
         {/if}
@@ -150,25 +153,65 @@
     </div>
   </div>
 
-  <div class="flex justify-between items-start mt-10 text-center">
+  <div
+    class="lg:flex hidden justify-between items-start -mx-8 mt-10 text-center"
+  >
     {#each solatTimes as time (time.slug)}
-      <div class="lg:p-6 relative p-2">
-        <div class="text-xs font-semibold">{time.name}</div>
-        <div class="lg:my-2 lg:text-3xl flex justify-center my-1 text-2xl">
+      <div
+        class="relative p-8 px-12 rounded-lg {nextSolat.slug === time.slug &&
+          'bg-gray-500/20'}"
+      >
+        <div class="text-base font-semibold">{time.name}</div>
+
+        <div class="flex justify-center my-4 text-4xl">
           <TimeIcon slug={time.slug} colored />
         </div>
-        <div class="lg:text-xl text-base font-semibold">
+
+        <div class="text-xl font-semibold">
           {time.time12}
         </div>
-        <div class="lg:text-sm -mt-1 text-xs font-medium">{time.ampm}</div>
+
+        <div class="text-sm font-medium">{time.ampm}</div>
+
         {#if nextSolat.slug === time.slug}
-          <div class="block mt-1 text-xs font-bold">
+          <div class="block mt-2 text-xs font-bold">
             <span
               class="dark:text-black dark:bg-white px-2 text-white bg-black rounded-full"
-              >Next</span
             >
+              Next
+            </span>
           </div>
         {/if}
+      </div>
+    {/each}
+  </div>
+
+  <div class="lg:hidden flex flex-col gap-1">
+    {#each solatTimes as time (time.slug)}
+      <div
+        class="lg:p-6 flex relative gap-4 items-center p-4 text-xl leading-none rounded-lg {nextSolat.slug ===
+          time.slug && 'bg-gray-500/20'}"
+      >
+        <div class="flex justify-center my-1 text-2xl">
+          <TimeIcon slug={time.slug} colored />
+        </div>
+
+        <div class="font-semibold">{time.name}</div>
+
+        {#if nextSolat.slug === time.slug}
+          <span
+            class="dark:text-black dark:bg-white px-2 text-xs font-bold text-white bg-black rounded-full"
+          >
+            Next
+          </span>
+        {/if}
+
+        <div class="flex-1" />
+
+        <div class="font-semibold">
+          {time.time12}
+          <small class="text-[0.65em]">{time.ampm}</small>
+        </div>
       </div>
     {/each}
   </div>

@@ -23,7 +23,7 @@ export const timeNames = {
 export default function getSolatTimes(
   day: Day,
   now: Date,
-  hideTimes: string[] = ['imsak', 'syuruk']
+  hideTimes: string[] = ['imsak']
 ): SolatTime[] {
   const solatTimes: SolatTime[] = Object.keys(day.times)
     .map((k) => {
